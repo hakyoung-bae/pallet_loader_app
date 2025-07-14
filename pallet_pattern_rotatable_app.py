@@ -54,7 +54,7 @@ for rotated in [False, True]:
     for r in range(1, qty + 1):
         c = math.ceil(qty / r)
         if r * c < qty:
-        continue
+            continue
         total_w = c * item_w
         total_h = r * item_h
         diff = abs(total_w - total_h)

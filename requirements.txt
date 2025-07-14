@@ -1,5 +1,0 @@
-
-streamlit
-rectpack
-matplotlib
-pandas

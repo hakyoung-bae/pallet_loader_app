@@ -54,14 +54,14 @@ for rotated in [False, True]:
     for r in range(1, qty + 1):
         c = math.ceil(qty / r)
         if r * c < qty:
-            continue
+        continue
         total_w = c * item_w
         total_h = r * item_h
         diff = abs(total_w - total_h)
         if total_w <= pallet_width and total_h <= pallet_depth and diff < best_diff:
             best_diff = diff
             best_config = (r, c, item_w, item_h, rotated)
-
+        
 if best_config is None:
     st.warning("❗ 어떤 방향으로도 제품을 적재할 수 없습니다.")
     st.stop()

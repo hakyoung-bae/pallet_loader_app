@@ -66,7 +66,7 @@ if best_config is None:
     st.warning("❗ 어떤 방향으로도 제품을 적재할 수 없습니다.")
     st.stop()
 
-rows, cols, pw_used, ph_used, rotated = best_config
+    rows, cols, pw_used, ph_used, rotated = best_config
 
     best_diff = float('inf')
     best_rows, best_cols = 1, qty

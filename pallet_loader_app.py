@@ -45,7 +45,29 @@ if st.button("1단 적재 패턴 계산 및 시각화"):
 
     color = (random.random(), random.random(), random.random(), 0.6)
 
-    # (1) 가장 정사각형에 가까운 행×열 조합 찾기
+    
+# (1) 가장 정사각형에 가까운 행×열 조합 찾기 (회전 포함)
+best_diff = float('inf')
+best_config = None
+for rotated in [False, True]:
+    item_w, item_h = (pw, ph) if not rotated else (ph, pw)
+    for r in range(1, qty + 1):
+        c = math.ceil(qty / r)
+        if r * c < qty:
+            continue
+        total_w = c * item_w
+        total_h = r * item_h
+        diff = abs(total_w - total_h)
+        if total_w <= pallet_width and total_h <= pallet_depth and diff < best_diff:
+            best_diff = diff
+            best_config = (r, c, item_w, item_h, rotated)
+
+if best_config is None:
+    st.warning("❗ 어떤 방향으로도 제품을 적재할 수 없습니다.")
+    st.stop()
+
+rows, cols, pw_used, ph_used, rotated = best_config
+
     best_diff = float('inf')
     best_rows, best_cols = 1, qty
     for r in range(1, qty + 1):
@@ -59,7 +81,11 @@ if st.button("1단 적재 패턴 계산 및 시각화"):
     total_w = cols * pw
     total_h = rows * ph
 
-    # (2) 여유 공간 계산
+    
+# (2) 여유 공간 계산
+total_w = cols * pw_used
+total_h = rows * ph_used
+
     margin_x = (pallet_width - total_w) / 2
     margin_y = (pallet_depth - total_h) / 2
 
@@ -80,14 +106,14 @@ if st.button("1단 적재 패턴 계산 및 시각화"):
         for c in range(cols):
             if placed >= qty:
                 break
-            x = margin_x + c * pw
-            y = margin_y + r * ph
+            x = margin_x + c * pw_used
+            y = margin_y + r * ph_used
 
-            ax.add_patch(Rectangle((x, y), pw, ph, facecolor=color, edgecolor='black'))
-            ax.text(x + pw / 2, y + ph / 2, model, ha='center', va='center', fontsize=8)
+            ax.add_patch(Rectangle((x, y), pw_used, ph_used, facecolor=color, edgecolor='black'))
+            ax.text(x + pw_used / 2, y + ph_used / 2, model, ha='center', va='center', fontsize=8)
 
-            cx = x + pw / 2
-            cy = y + ph / 2
+            cx = x + pw_used / 2
+            cy = y + ph_used / 2
             cg_sum_x += cx * weight
             cg_sum_y += cy * weight
             total_weight += weight

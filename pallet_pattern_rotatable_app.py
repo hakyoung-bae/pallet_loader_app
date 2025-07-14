@@ -1,4 +1,5 @@
-import streamlit as st
+
+mport streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Circle
@@ -52,11 +53,11 @@ for rotated in [False, True]:
     item_w, item_h = (pw, ph) if not rotated else (ph, pw)
     for r in range(1, qty + 1):
         c = math.ceil(qty / r)
-if r * c < qty:
-    continue
-    total_w = c * item_w
-    total_h = r * item_h
-    diff = abs(total_w - total_h)
+        if r * c < qty:
+        continue
+        total_w = c * item_w
+        total_h = r * item_h
+        diff = abs(total_w - total_h)
         if total_w <= pallet_width and total_h <= pallet_depth and diff < best_diff:
             best_diff = diff
             best_config = (r, c, item_w, item_h, rotated)

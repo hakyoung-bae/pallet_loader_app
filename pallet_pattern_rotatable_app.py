@@ -86,8 +86,8 @@ if best_config is None:
 total_w = cols * pw_used
 total_h = rows * ph_used
 
-    margin_x = (pallet_width - total_w) / 2
-    margin_y = (pallet_depth - total_h) / 2
+margin_x = (pallet_width - total_w) / 2
+margin_y = (pallet_depth - total_h) / 2
 
     if margin_x < 0 or margin_y < 0:
         st.warning("❗ 제품이 팔렛트에 들어가지 않습니다. 수량 또는 제품 크기를 줄이세요.")

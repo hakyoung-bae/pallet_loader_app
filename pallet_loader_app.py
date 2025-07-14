@@ -50,7 +50,7 @@ if st.button("🚚 적재 최적화 실행"):
         ax.set_aspect('equal')
 
         for rect in abin:
-            x, y, w, h, rid = rect
+            x, y, w, h, rid, *_ = rect
             ax.add_patch(plt.Rectangle((x, y), w, h, fill=True, alpha=0.6, label=str(rid)))
             ax.text(x + w/2, y + h/2, rid, ha='center', va='center', fontsize=8)
 

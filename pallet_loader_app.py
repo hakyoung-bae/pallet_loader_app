@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,6 +12,7 @@ max_weight = st.sidebar.number_input("팔렛트 최대 적재 중량 (kg)", valu
 
 st.sidebar.header("🔋 배터리 모델 정보 입력")
 
+# 사용자 입력: 테이블 형태
 default_data = {
     "모델명": ["BCI65", "DIN66"],
     "가로(mm)": [300, 280],
@@ -22,8 +22,10 @@ default_data = {
 }
 df = st.sidebar.data_editor(pd.DataFrame(default_data), num_rows="dynamic")
 
+# 적재 시작
 if st.button("🚚 적재 최적화 실행"):
 
+    # packer 준비
     packer = newPacker(rotation=False)
 
     for idx, row in df.iterrows():
@@ -31,6 +33,7 @@ if st.button("🚚 적재 최적화 실행"):
         for _ in range(qty):
             packer.add_rect(w, h, rid=row["모델명"])
 
+    # 팔렛트 크기 (무한 개수로 추가)
     packer.add_bin(pallet_width, pallet_depth, float("inf"))
 
     packer.pack()
@@ -38,6 +41,7 @@ if st.button("🚚 적재 최적화 실행"):
     total_pallets = len(packer)
     st.success(f"총 팔렛트 수: {total_pallets}")
 
+    # 팔렛트별 시각화
     for i, abin in enumerate(packer):
         fig, ax = plt.subplots(figsize=(6, 5))
         ax.set_title(f"팔렛트 #{i+1}")
